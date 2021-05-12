@@ -7,8 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <h3>{{ auth()->user()->username }}</h3>
+    <h1>Hello, {{ auth()->user()->username }}</h1>
     <ul>
         <li>
             <form action="{{ route('logout') }}" method="POST">

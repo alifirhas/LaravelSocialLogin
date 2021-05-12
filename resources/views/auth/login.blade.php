@@ -48,6 +48,14 @@
         @endif
     </form>
 
+    <table>
+        <tr>
+            <td colspan="3">
+                <a href="/login/github/">GitHub Login</a>
+            </td>
+        </tr>
+    </table>
+
     <ul>
         <li><a href="{{ route('register') }}">Register</a></li>
         <li><a href="{{ route('home') }}">Home</a></li>

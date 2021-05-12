@@ -27,7 +27,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
-
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -38,6 +37,8 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
 
+    Route::get('/login/github', [LoginController::class, 'github'])->name('login.github');
+    Route::get('/login/github/redirect', [LoginController::class, 'githubRedirect'])->name('login.githhubRedirect');
 
 });
 

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\auth;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -32,7 +37,7 @@ class LoginController extends Controller
 
         $credential = $request->only('email', 'password');
 
-        if(!auth()->attempt($credential)){
+        if(!Auth::attempt($credential)){
             return back()->with('status', 'Invalid login details');
         }
 
@@ -71,5 +76,30 @@ class LoginController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function github(){
+        // alihkah pengguna ke permitaan login github
+        return Socialite::driver('github')->stateless()->redirect();
+    }
+
+    public function githubRedirect(){
+        // mengambil request dari github
+        $user = Socialite::driver('github')->stateless()->user();
+
+        // jika user belom ada, daftarkan dulu
+        // jika user sudah ada, langusng login
+
+        $create = User::firstOrCreate([
+            'email' => $user->email
+        ], [
+            'name' => $user->name,
+            'username' => $user->nickname,
+            'password' => Hash::make(Str::random(20)),
+        ]);
+        
+        Auth::login($create);
+
+        return redirect()->route('dashboard');
     }
 }
